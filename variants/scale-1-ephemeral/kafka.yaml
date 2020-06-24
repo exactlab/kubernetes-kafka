@@ -1,12 +1,17 @@
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: kafka
   namespace: kafka
 spec:
-  template:
+  volumeClaimTemplates:
+  - metadata:
+      name: data
     spec:
-      volumes:
-      - name: data
-        emptyDir: {}
-  volumeClaimTemplates: []
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: local-hostpath
+      resources:
+        requests:
+          storage: 20Gi
+
